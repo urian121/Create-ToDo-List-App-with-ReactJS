@@ -33,6 +33,14 @@ function FormularioConLista() {
   return (
     <div className="container text-center mt-5 mb-5">
       <div className="row justify-content-md-center">
+        <div className="col-md-12">
+          <h1 className="mt-3 mb-5 text-center">
+            Mi TODO List con ReactJS 🚀 <hr />
+          </h1>
+        </div>
+      </div>
+
+      <div className="row justify-content-md-center">
         <div className="col col-lg-6">
           <h1 className="mt-3 mb-5">
             Formulario con Lista <hr />
@@ -71,31 +79,6 @@ function FormularioConLista() {
         </div>
 
         {/* Lista de Alumnos y su curso */}
-        <div className="col col-lg-6">
-          <h1 className="mt-3 mb-5">
-            Lista de Alumnos <hr />
-          </h1>
-          <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Alumno</th>
-                  <th scope="col">Curso</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.alumno}</td>
-                    <td>{item.curso}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
         <Cursos items={items} />
       </div>
     </div>
