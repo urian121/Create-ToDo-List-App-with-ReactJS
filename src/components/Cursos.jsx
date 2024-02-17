@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-function Cursos({ items }) {
+function Cursos({ items, handleDelete, handleEdit }) {
   return (
-    <div className="col col-lg-6">
+    <div className="col col-lg-7">
       <h1 className="mt-3 mb-5">
         Lista de Alumnos <hr />
       </h1>
@@ -13,6 +13,9 @@ function Cursos({ items }) {
               <th scope="col">#</th>
               <th scope="col">Alumno</th>
               <th scope="col">Curso</th>
+              <th scope="col">Sexo</th>
+              <th scope="col">Idioma</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -21,6 +24,26 @@ function Cursos({ items }) {
                 <td>{index + 1}</td>
                 <td>{item.alumno}</td>
                 <td>{item.curso}</td>
+                <td>{item.sexo}</td>
+                <td>{item.hablaIngles ? "Sí" : "No"}</td>
+                <td>
+                  <span className="flex_btns">
+                    <button
+                      title="Borrar alumno"
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={() => handleDelete(index)}>
+                      <i className="bi bi-trash3"></i>
+                    </button>
+                    <button
+                      title="Editar alumno"
+                      className="btn btn-success"
+                      type="button"
+                      onClick={() => handleEdit(index)}>
+                      <i className="bi bi-arrow-clockwise"></i>
+                    </button>
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -36,6 +59,8 @@ function Cursos({ items }) {
  */
 Cursos.propTypes = {
   items: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 export default Cursos;

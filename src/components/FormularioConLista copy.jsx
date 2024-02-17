@@ -58,14 +58,6 @@ function FormularioConLista() {
     setItems(updatedItems);
   };
 
-  /**Funcion para actualizar */
-
-  const handleEdit = (index) => {
-    const selected = items[index]; // Obtener el registro seleccionado
-    console.log(selected);
-    console.log("Editando alumno en el índice", index);
-  };
-
   return (
     <div className="container text-center mt-5 mb-5">
       <Titulo />
@@ -148,7 +140,7 @@ function FormularioConLista() {
             </div>
             <div className="d-grid gap-2 mb-5">
               <button type="submit" className="btn btn-primary block">
-                Registrar
+                Registrar Alumno
               </button>
             </div>
             {error && <div className="alert alert-danger mt-2">{error}</div>}
@@ -156,11 +148,7 @@ function FormularioConLista() {
         </div>
 
         {/* Lista de Alumnos y su curso */}
-        <Cursos
-          items={items}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-        />
+        <Cursos items={items} handleDelete={handleDelete} />
       </div>
     </div>
   );

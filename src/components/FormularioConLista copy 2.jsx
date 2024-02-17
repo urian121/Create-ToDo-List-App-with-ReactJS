@@ -9,6 +9,8 @@ function FormularioConLista() {
   const [hablaIngles, setHablaIngles] = useState(true);
   const [items, setItems] = useState([]);
   const [error, setError] = useState("");
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
   const handleChange = (event) => {
     setInputNombre(event.target.value);
@@ -59,11 +61,41 @@ function FormularioConLista() {
   };
 
   /**Funcion para actualizar */
-
   const handleEdit = (index) => {
-    const selected = items[index]; // Obtener el registro seleccionado
-    console.log(selected);
+    setSelectedItemIndex(index); // Establecer el índice del registro seleccionado
+    setModoEdicion(true); // Activar modo de edición
     console.log("Editando alumno en el índice", index);
+  };
+
+  // Función para manejar la edición del alumno
+  const handleEditSubmit = (event) => {
+    event.preventDefault();
+
+    // Obtenemos los datos del formulario de edición
+    const formData = new FormData(event.target);
+    const alumno = formData.get("alumno");
+
+    if (selectedItemIndex !== null) {
+      // Verificamos si hay un elemento seleccionado
+      // Creamos una copia del array de items
+      const updatedItems = [...items];
+      // Actualizamos los datos del alumno seleccionado
+      updatedItems[selectedItemIndex] = {
+        alumno: alumno,
+        curso: selectedCurso,
+        sexo: sexo,
+        hablaIngles: hablaIngles,
+      };
+      // Actualizamos el estado con los datos actualizados
+      setItems(updatedItems);
+      // Limpiamos el estado del registro seleccionado
+      setSelectedItemIndex(null);
+      // Desactivar modo de edición
+      setModoEdicion(false);
+    } else {
+      // Manejar el caso donde no hay ningún elemento seleccionado
+      console.log("No hay ningún elemento seleccionado para editar.");
+    }
   };
 
   return (
@@ -76,14 +108,18 @@ function FormularioConLista() {
             Registrar Alumno <hr />
           </h1>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={modoEdicion ? handleEditSubmit : handleSubmit}>
             <div className="mb-3">
               <label className="form-label">Nombre del Alumno</label>
               <input
                 type="text"
                 name="alumno"
                 className="form-control"
-                value={inputNombre}
+                value={
+                  modoEdicion && selectedItemIndex !== null
+                    ? items[selectedItemIndex].alumno
+                    : inputNombre
+                }
                 onChange={handleChange}
               />
             </div>
@@ -92,7 +128,11 @@ function FormularioConLista() {
               <select
                 name="cursos"
                 className="form-select"
-                value={selectedCurso}
+                value={
+                  modoEdicion && selectedItemIndex !== null
+                    ? items[selectedItemIndex].curso
+                    : selectedCurso
+                }
                 onChange={handleCursoChange}>
                 <option disabled>Seleccione el Curso</option>
                 <option value="ReactJS">ReactJS</option>
@@ -109,8 +149,12 @@ function FormularioConLista() {
                   name="sexo"
                   id="masculino"
                   value="masculino"
-                  checked={sexo === "masculino"}
-                  onChange={handleChangeSexo} // Aquí debe ser handleChangeSexo
+                  checked={
+                    modoEdicion && selectedItemIndex !== null
+                      ? items[selectedItemIndex].sexo === "masculino"
+                      : sexo === "masculino"
+                  }
+                  onChange={handleChangeSexo}
                 />
                 <label className="form-check-label" htmlFor="masculino">
                   Masculino
@@ -123,8 +167,12 @@ function FormularioConLista() {
                   name="sexo"
                   id="femenino"
                   value="femenino"
-                  checked={sexo === "femenino"}
-                  onChange={handleChangeSexo} // Aquí debe ser handleChangeSexo
+                  checked={
+                    modoEdicion && selectedItemIndex !== null
+                      ? items[selectedItemIndex].sexo === "femenino"
+                      : sexo === "femenino"
+                  }
+                  onChange={handleChangeSexo}
                 />
                 <label className="form-check-label" htmlFor="femenino">
                   Femenino
@@ -132,13 +180,15 @@ function FormularioConLista() {
               </div>
             </div>
             <div className="mb-3">
-              <label className="form-label">¿Hablas Ingles?</label>
+              <label className="form-label">¿Hablas Inglés?</label>
               <div className="form-check form-switch">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   id="ingles"
-                  checked={hablaIngles}
+                  checked={
+                    modoEdicion ? selectedItemIndex.hablaIngles : hablaIngles
+                  }
                   onChange={handleChangeHablaIngles}
                 />
                 <label className="form-check-label" htmlFor="ingles">
@@ -148,7 +198,7 @@ function FormularioConLista() {
             </div>
             <div className="d-grid gap-2 mb-5">
               <button type="submit" className="btn btn-primary block">
-                Registrar
+                {modoEdicion ? "Guardar cambios" : "Registrar"}
               </button>
             </div>
             {error && <div className="alert alert-danger mt-2">{error}</div>}
