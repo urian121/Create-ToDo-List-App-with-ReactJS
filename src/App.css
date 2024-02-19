@@ -16,7 +16,7 @@ label {
   display: flex;
   justify-content: flex-start;
 }
-button {
+.btn_add {
   border: 1px solid #06c046 !important;
   background-color: #06c046 !important;
 }

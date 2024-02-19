@@ -2,6 +2,10 @@ import { useState } from "react";
 import Cursos from "./Cursos";
 import Titulo from "./Titulo";
 
+/**Importamos el componente ToastContainer de la biblioteca react-toastify */
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function FormularioConLista() {
   const [inputNombre, setInputNombre] = useState("");
   const [selectedCurso, setSelectedCurso] = useState("Seleccione el Curso");
@@ -43,6 +47,7 @@ function FormularioConLista() {
           hablaIngles: hablaIngles,
         },
       ]);
+      toast.success("Alumno registro eliminado correctamente");
       setInputNombre("");
       setSelectedCurso("Seleccione el Curso");
       setError("");
@@ -56,6 +61,7 @@ function FormularioConLista() {
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
+    toast.error("Alumno eliminado correctamente");
   };
 
   /**Funcion para actualizar */
@@ -68,6 +74,7 @@ function FormularioConLista() {
 
   return (
     <div className="container text-center mt-5 mb-5">
+      <ToastContainer />
       <Titulo />
 
       <div className="row justify-content-md-center">
@@ -147,7 +154,7 @@ function FormularioConLista() {
               </div>
             </div>
             <div className="d-grid gap-2 mb-5">
-              <button type="submit" className="btn btn-primary block">
+              <button type="submit" className="btn btn-primary block btn_add">
                 Registrar
               </button>
             </div>
