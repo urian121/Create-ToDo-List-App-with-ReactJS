@@ -4,7 +4,7 @@
 
 #### Resultado final
 
-    ![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/todo-list-con-reactjs.png)
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/todo-list-con-reactjs.png)
 
 #### Instalar la libreria react-toastify para crear las alertas.
 
