@@ -13,6 +13,8 @@ function FormularioConLista() {
   const [hablaIngles, setHablaIngles] = useState(true);
   const [items, setItems] = useState([]);
   const [error, setError] = useState("");
+  const [editIndex, setEditIndex] = useState(false);
+  const [idIndexEdit, setidIndexEdit] = useState(null);
 
   const handleChange = (event) => {
     setInputNombre(event.target.value);
@@ -52,7 +54,7 @@ function FormularioConLista() {
       setSelectedCurso("Seleccione el Curso");
       setError("");
     } else {
-      setError("Por favor complete todos los campos y acepte los términos");
+      setError("Por favor complete todos los campos");
     }
   };
 
@@ -64,12 +66,65 @@ function FormularioConLista() {
     toast.error("Alumno eliminado correctamente");
   };
 
-  /**Funcion para actualizar */
-
+  /** Funcion para actualizar */
   const handleEdit = (index) => {
     const selected = items[index]; // Obtener el registro seleccionado
+    setEditIndex(true); // Establecer el índice de edición
+
+    // Establecer los valores del alumno seleccionado en los campos del formulario
     console.log(selected);
     console.log("Editando alumno en el índice", index);
+    setInputNombre(selected.alumno);
+    setSelectedCurso(selected.curso);
+    setSexo(selected.sexo);
+    setHablaIngles(selected.hablaIngles);
+
+    //Actualizando el id del registro que se va a editar
+    setidIndexEdit(index);
+  };
+
+  /**
+   * Recibir datos del formulario con un registros en especifico para actualizarlos
+   */
+  const handleUpdateSubmit = (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const updatedAlumno = formData.get("alumno");
+    const updatedCurso = formData.get("cursos");
+    const updatedSexo = formData.get("sexo");
+    console.log(updatedAlumno, updatedCurso, updatedSexo);
+
+    // Crear una copia de la lista de alumnos
+    const updatedItems = [...items];
+    //console.log("Actualizando registro en el índice:", idIndexEdit);
+
+    console.log(updatedItems[idIndexEdit]);
+    // Actualizar el objeto del alumno seleccionado con los nuevos valores
+    updatedItems[idIndexEdit] = {
+      ...updatedItems[idIndexEdit],
+      alumno: updatedAlumno,
+      curso: updatedCurso,
+      sexo: updatedSexo,
+      hablaIngles: hablaIngles,
+    };
+
+    // Actualizar la lista de alumnos
+    setItems(updatedItems);
+    // Reiniciar el estado de edición
+    setEditIndex(false);
+    // Mostrar una notificación de éxito
+    toast.success("¡Alumno actualizado correctamente!");
+
+    setInputNombre("");
+    setSelectedCurso("Seleccione el Curso");
+    setError("");
+  };
+
+  const volver = () => {
+    setEditIndex(false);
+    setInputNombre("");
+    setSelectedCurso("Seleccione el Curso");
   };
 
   return (
@@ -80,10 +135,20 @@ function FormularioConLista() {
       <div className="row justify-content-md-center">
         <div className="col col-lg-5">
           <h1 className="mt-3 mb-5">
-            Registrar Alumno <hr />
+            {editIndex ? (
+              <>
+                <i
+                  className="bi bi-arrow-left-circle float-start"
+                  onClick={volver}></i>{" "}
+                Editar Alumno
+              </>
+            ) : (
+              "Registrar Alumno"
+            )}
+            <hr />
           </h1>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={editIndex ? handleUpdateSubmit : handleSubmit}>
             <div className="mb-3">
               <label className="form-label">Nombre del Alumno</label>
               <input
@@ -155,7 +220,7 @@ function FormularioConLista() {
             </div>
             <div className="d-grid gap-2 mb-5">
               <button type="submit" className="btn btn-primary block btn_add">
-                Registrar
+                {editIndex ? "Editar " : "Registrar "} Alumno
               </button>
             </div>
             {error && <div className="alert alert-danger mt-2">{error}</div>}
