@@ -2,9 +2,9 @@ import { useState } from "react";
 import Cursos from "./Cursos";
 import Titulo from "./Titulo";
 
-/**Importamos el componente ToastContainer de la biblioteca react-toastify */
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// Importando la biblioteca nextjs-toast-notify
+import { toast } from "nextjs-toast-notify";
+import "nextjs-toast-notify/dist/nextjs-toast-notify.css";
 
 function FormularioConLista() {
   const [inputNombre, setInputNombre] = useState("");
@@ -12,7 +12,6 @@ function FormularioConLista() {
   const [sexo, setSexo] = useState("masculino");
   const [hablaIngles, setHablaIngles] = useState(true);
   const [items, setItems] = useState([]);
-  const [error, setError] = useState("");
   const [editIndex, setEditIndex] = useState(false);
   const [idIndexEdit, setidIndexEdit] = useState(null);
 
@@ -49,12 +48,18 @@ function FormularioConLista() {
           hablaIngles: hablaIngles,
         },
       ]);
-      toast.success("Alumno registro eliminado correctamente");
+      toast.success("¡La operación se realizó con éxito!", {
+        duration: 5000,
+        progress: true,
+        position: "top-right",
+        transition: "bounceIn",
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-apple"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>',
+        sonido: true,
+      });
       setInputNombre("");
       setSelectedCurso("Seleccione el Curso");
-      setError("");
     } else {
-      setError("Por favor complete todos los campos");
+      console.log("Por favor complete todos los campos");
     }
   };
 
@@ -63,7 +68,10 @@ function FormularioConLista() {
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
-    toast.error("Alumno eliminado correctamente");
+    toast.error("Alumno eliminado correctamente", {
+      duration: 2000,
+      position: "top-center",
+    });
   };
 
   /** Funcion para actualizar */
@@ -72,8 +80,6 @@ function FormularioConLista() {
     setEditIndex(true); // Establecer el índice de edición
 
     // Establecer los valores del alumno seleccionado en los campos del formulario
-    console.log(selected);
-    console.log("Editando alumno en el índice", index);
     setInputNombre(selected.alumno);
     setSelectedCurso(selected.curso);
     setSexo(selected.sexo);
@@ -93,13 +99,11 @@ function FormularioConLista() {
     const updatedAlumno = formData.get("alumno");
     const updatedCurso = formData.get("cursos");
     const updatedSexo = formData.get("sexo");
-    console.log(updatedAlumno, updatedCurso, updatedSexo);
 
     // Crear una copia de la lista de alumnos
     const updatedItems = [...items];
     //console.log("Actualizando registro en el índice:", idIndexEdit);
 
-    console.log(updatedItems[idIndexEdit]);
     // Actualizar el objeto del alumno seleccionado con los nuevos valores
     updatedItems[idIndexEdit] = {
       ...updatedItems[idIndexEdit],
@@ -114,11 +118,10 @@ function FormularioConLista() {
     // Reiniciar el estado de edición
     setEditIndex(false);
     // Mostrar una notificación de éxito
-    toast.success("¡Alumno actualizado correctamente!");
+    toast.info("¡Alumno actualizado correctamente!");
 
     setInputNombre("");
     setSelectedCurso("Seleccione el Curso");
-    setError("");
   };
 
   const volver = () => {
@@ -129,7 +132,6 @@ function FormularioConLista() {
 
   return (
     <div className="container text-center mt-5 mb-5">
-      <ToastContainer />
       <Titulo />
 
       <div className="row justify-content-md-center">
@@ -139,7 +141,8 @@ function FormularioConLista() {
               <>
                 <i
                   className="bi bi-arrow-left-circle float-start"
-                  onClick={volver}></i>{" "}
+                  onClick={volver}
+                ></i>{" "}
                 Editar Alumno
               </>
             ) : (
@@ -165,7 +168,8 @@ function FormularioConLista() {
                 name="cursos"
                 className="form-select"
                 value={selectedCurso}
-                onChange={handleCursoChange}>
+                onChange={handleCursoChange}
+              >
                 <option disabled>Seleccione el Curso</option>
                 <option value="ReactJS">ReactJS</option>
                 <option value="Python">Python</option>
@@ -223,7 +227,6 @@ function FormularioConLista() {
                 {editIndex ? "Editar " : "Registrar "} Alumno
               </button>
             </div>
-            {error && <div className="alert alert-danger mt-2">{error}</div>}
           </form>
         </div>
 

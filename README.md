@@ -4,15 +4,16 @@
 
 #### Resultado final
 
-![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/todo-list-con-reactjs.png)
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/ToDoAppConReactY-nextjs-toast-notify.gif)
 
-#### Instalar la libreria react-toastify para crear las alertas.
+#### Instalar la libreria nextjs-toast-notify para crear las alertas.
+    https://www.npmjs.com/package/nextjs-toast-notify
 
-    npm install --save react-toastify
+    npm install --save nextjs-toast-notify
 
-#### Instalar la libreria react-toastify para crear las alertas.
+#### Instalar la libreria nextjs-toast-notify para crear las alertas.
 
-    npm install --save react-toastify
+    npm install nextjs-toast-notify
 
 #### Para correr el proyecto, solo basta instalar las dependencias y correr el proyecto
 
@@ -27,3 +28,4 @@
     Da las gracias públicamente 🤓.
 
 ## No olvides SUSCRIBIRTE 👍
+
