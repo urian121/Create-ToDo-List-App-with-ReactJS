@@ -3,7 +3,7 @@ import Cursos from "./Cursos";
 import Titulo from "./Titulo";
 
 // Importando la biblioteca nextjs-toast-notify
-import { toast } from "nextjs-toast-notify";
+import { showToast } from "nextjs-toast-notify";
 
 function FormularioConLista() {
   const [inputNombre, setInputNombre] = useState("");
@@ -47,7 +47,7 @@ function FormularioConLista() {
           hablaIngles: hablaIngles,
         },
       ]);
-      toast.success("¡La operación se realizó con éxito!", {
+      showToast.success("¡La operación se realizó con éxito!", {
         duration: 5000,
         progress: true,
         position: "top-right",
@@ -67,7 +67,7 @@ function FormularioConLista() {
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
-    toast.error("Alumno eliminado correctamente", {
+    showToast.error("Alumno eliminado correctamente", {
       duration: 2000,
       position: "top-center",
       sound: true,
@@ -118,7 +118,7 @@ function FormularioConLista() {
     // Reiniciar el estado de edición
     setEditIndex(false);
     // Mostrar una notificación de éxito
-    toast.info("¡Alumno actualizado correctamente!");
+    showToast.info("¡Alumno actualizado correctamente!");
 
     setInputNombre("");
     setSelectedCurso("Seleccione el Curso");
@@ -139,11 +139,7 @@ function FormularioConLista() {
           <h1 className="mt-3 mb-5">
             {editIndex ? (
               <>
-                <i
-                  className="bi bi-arrow-left-circle float-start"
-                  onClick={volver}
-                ></i>{" "}
-                Editar Alumno
+                <i className="bi bi-arrow-left-circle float-start" onClick={volver}></i> Editar Alumno
               </>
             ) : (
               "Registrar Alumno"
@@ -154,22 +150,11 @@ function FormularioConLista() {
           <form onSubmit={editIndex ? handleUpdateSubmit : handleSubmit}>
             <div className="mb-3">
               <label className="form-label">Nombre del Alumno</label>
-              <input
-                type="text"
-                name="alumno"
-                className="form-control"
-                value={inputNombre}
-                onChange={handleChange}
-              />
+              <input type="text" name="alumno" className="form-control" value={inputNombre} onChange={handleChange} />
             </div>
             <div className="mb-3">
               <label className="form-label">Seleccione el Curso</label>
-              <select
-                name="cursos"
-                className="form-select"
-                value={selectedCurso}
-                onChange={handleCursoChange}
-              >
+              <select name="cursos" className="form-select" value={selectedCurso} onChange={handleCursoChange}>
                 <option disabled>Seleccione el Curso</option>
                 <option value="ReactJS">ReactJS</option>
                 <option value="Python">Python</option>
@@ -210,13 +195,7 @@ function FormularioConLista() {
             <div className="mb-3">
               <label className="form-label">¿Hablas Ingles?</label>
               <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="ingles"
-                  checked={hablaIngles}
-                  onChange={handleChangeHablaIngles}
-                />
+                <input className="form-check-input" type="checkbox" id="ingles" checked={hablaIngles} onChange={handleChangeHablaIngles} />
                 <label className="form-check-label" htmlFor="ingles">
                   {hablaIngles ? "Sí" : "No"}
                 </label>
@@ -231,11 +210,7 @@ function FormularioConLista() {
         </div>
 
         {/* Lista de Alumnos y su curso */}
-        <Cursos
-          items={items}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-        />
+        <Cursos items={items} handleDelete={handleDelete} handleEdit={handleEdit} />
       </div>
     </div>
   );
